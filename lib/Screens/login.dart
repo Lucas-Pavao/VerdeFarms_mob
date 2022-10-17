@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:verde_farm/Components/FormFieldLogins.dart';
 
+import '../Components/PassFormFieldLogins.dart';
+import 'Cadastro.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -12,7 +15,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.deepPurple,
+      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: Center(
@@ -22,29 +25,36 @@ class _LoginPageState extends State<LoginPage> {
               children: <Widget>[
                 FormFieldLogins(
                   keyboardType: TextInputType.emailAddress,
-                  labelText: 'Emai',
+                  labelText: 'Email',
                   autofocus: true,
                 ),
                 const Divider(),
-                FormFieldLogins(
+                PassFormFieldLogins(
                   labelText: 'Senha',
-                  obscureText: true,
                   autofocus: true,
                   keyboardType: TextInputType.text,
                 ),
                 const Divider(),
                 ElevatedButton(
                   onPressed: () {},
-                  child: Text(
-                    'Entrar',
-                    style: TextStyle(color: Colors.deepPurple),
-                  ),
                   style: TextButton.styleFrom(
                       elevation: 0,
-                      backgroundColor: Colors.white,
+                      // backgroundColor: Colors.deepPurple,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15))),
+                  child: const Text(
+                    'Entrar',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
+                Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                  TextButton(
+                      onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Cadastro())),
+                      child: const Text('Cadastrar'))
+                ]),
               ]),
         ),
       ),
