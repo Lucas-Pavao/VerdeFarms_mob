@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
 class FormFieldLogins extends StatelessWidget {
-  bool autofocus;
-  String labelText;
-  TextInputType keyboardType;
+  final bool autofocus;
+  final String labelText;
+  final TextEditingController? textController;
+  final TextInputType keyboardType;
   FormFieldLogins({
     super.key,
     this.autofocus = false,
     required this.keyboardType,
     required this.labelText,
+    this.textController,
   });
 
   @override
@@ -16,6 +18,7 @@ class FormFieldLogins extends StatelessWidget {
     return TextFormField(
       autofocus: autofocus,
       keyboardType: keyboardType,
+      controller: textController,
       style: const TextStyle(
         color: Colors.black,
         fontSize: 20,

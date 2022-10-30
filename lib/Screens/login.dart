@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:verde_farm/Components/FormFieldLogins.dart';
 
 import '../Components/PassFormFieldLogins.dart';
-import 'Cadastro.dart';
+import 'cadastro.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
