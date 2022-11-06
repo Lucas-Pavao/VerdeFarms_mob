@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:verde_farm/Screens/cadastro.dart';
-import 'package:verde_farm/Screens/login.dart';
 import 'package:verde_farm/Services/cadastro_service.dart';
 import 'package:verde_farm/models/vendedor_model.dart';
 
