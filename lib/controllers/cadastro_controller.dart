@@ -1,61 +1,58 @@
 import 'package:flutter/material.dart';
-import 'package:verde_farm/Services/cadastro_service.dart';
-import 'package:verde_farm/models/vendedor_model.dart';
+import 'package:get/get.dart';
+import 'package:verde_farm/Services/register_service.dart';
+import 'package:verde_farm/models/register_model.dart';
 
 class CadastroController {
-  static final TextEditingController nomeController = TextEditingController();
-  static final TextEditingController apelidoController =
+  static final TextEditingController firstNameController =
       TextEditingController();
-  static final TextEditingController cpfController = TextEditingController();
-  static final TextEditingController usuarioController =
+  static final TextEditingController lastNameController =
       TextEditingController();
-  static final TextEditingController descricaoController =
-      TextEditingController();
+  static final TextEditingController emailController = TextEditingController();
   static final TextEditingController senhaController = TextEditingController();
   static final TextEditingController confSenhaController =
       TextEditingController();
 
   static Future<void> cadastrar(BuildContext context) async {
-    final String nome = nomeController.text;
-    final String apelido = apelidoController.text;
-    final String cpf = cpfController.text;
-    final String usuario = usuarioController.text;
-    final String descricao = descricaoController.text;
+    final String nome = firstNameController.text;
+    final String sobrenome = lastNameController.text;
+    final String email = emailController.text;
     final String senha = senhaController.text;
     final String confSenha = confSenhaController.text;
 
     if (nome.isNotEmpty &&
-        apelido.isNotEmpty &&
-        cpf.isNotEmpty &&
-        usuario.isNotEmpty &&
-        descricao.isNotEmpty &&
+        sobrenome.isNotEmpty &&
+        email.isNotEmpty &&
         senha.isNotEmpty &&
         confSenha.isNotEmpty) {
-      Vendedor vendedor = Vendedor(
-        nome: nome,
-        apelido: apelido,
-        cpf: cpf,
-        usuario: usuario,
-        descricao: descricao,
-        senha: senha,
-      );
-      try {
-        await CadastroServices.postCadastro(vendedor);
-        // Navigator.of(context).pushReplacement(
-        //     MaterialPageRoute(builder: (context) => LoginPage()));
-      } catch (error) {
-        print(error);
+      if (senha == confSenha) {
+        Register register = Register(
+          first_name: nome,
+          last_name: sobrenome,
+          email: email,
+          password: senha,
+          password2: confSenha,
+          username: "${nome}_$sobrenome",
+        );
+        try {
+          await RegisterServices.postRegister(register);
+
+          // Navigator.of(context).pushReplacement(
+          //     MaterialPageRoute(builder: (context) => LoginPage()));
+        } catch (error) {
+          print(error);
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: Colors.grey.shade200,
+          content: Text(
+            "As senhas não coincidem",
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyLarge!,
+          ),
+          duration: const Duration(seconds: 3),
+        ));
       }
-    } else if (senha != confSenha) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        backgroundColor: Colors.grey.shade200,
-        content: Text(
-          "As senhas não coincidem",
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.bodyLarge!,
-        ),
-        duration: const Duration(seconds: 3),
-      ));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: Colors.grey.shade200,
@@ -67,5 +64,17 @@ class CadastroController {
         duration: const Duration(seconds: 3),
       ));
     }
+
+    // errorMessage(Register error) {
+    //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    //     backgroundColor: Colors.grey.shade200,
+    //     content: Text(
+    //       '${error.printError()}',
+    //       textAlign: TextAlign.center,
+    //       style: Theme.of(context).textTheme.bodyLarge!,
+    //     ),
+    //     duration: const Duration(seconds: 3),
+    //   ));
+    // }
   }
 }

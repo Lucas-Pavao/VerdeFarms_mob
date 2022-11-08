@@ -7,7 +7,7 @@ import 'package:verde_farm/constants/apiConstants.dart';
 import 'package:verde_farm/models/vendedor_model.dart';
 
 // void main() {
-//   CadastroServices.postCadastro(Vendedor(
+//   VEndedorServices.postCadastro(Vendedor(
 //       apelido: 'Lazaro',
 //       cpf: '100101010',
 //       descricao: 'Apenas mais um teste',
@@ -16,15 +16,15 @@ import 'package:verde_farm/models/vendedor_model.dart';
 //       usuario: 'vendedor'));
 // }
 
-class CadastroServices {
-  static Future<Vendedor> getCadastro() async {
+class VendedorServices {
+  static Future<Vendedor> getVEndedor() async {
     var response = await http.get(Uri.parse(Backend.vendedorURL + '1'));
     var json = jsonDecode(response.body);
     var vendedor = Vendedor.fromJson(json);
     return vendedor;
   }
 
-  static Future<Vendedor?> postCadastro(Vendedor vendedor) async {
+  static Future<Vendedor?> postVEndedor(Vendedor vendedor) async {
     var response = await http.post(Uri.parse(Backend.vendedorURL), body: {
       'usuario': vendedor.usuario,
       'senha': vendedor.senha,

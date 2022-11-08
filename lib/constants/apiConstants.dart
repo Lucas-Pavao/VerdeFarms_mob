@@ -4,6 +4,8 @@ class Backend {
   static final http.Client client = http.Client();
 
   static const String baseURL = "http://10.0.2.2:8000/api";
+  static const String registerURL = "$baseURL/register";
+  static const String usersURL = "$baseURL/users/";
   static const String vendedorURL = "$baseURL/vendedor/";
   static const String localizacaoURL = "$baseURL/lozalizacao/";
   static const String fazendaURL = "$baseURL/fazenda/";

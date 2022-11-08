@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'Screens/login.dart';
+import 'package:verde_farm/Screens/mapa.dart';
 
 main() {
   runApp(VerdeFarm());
@@ -14,9 +13,9 @@ class VerdeFarm extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
+        primarySwatch: Colors.green,
       ),
-      home: LoginPage(),
+      home: Mapa(),
     );
   }
 }

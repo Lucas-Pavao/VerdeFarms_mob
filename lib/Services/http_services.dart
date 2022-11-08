@@ -20,6 +20,8 @@ class HttpServices {
   static Future<String> postData(String url, dynamic body) async {
     try {
       final response = await Backend.client.post(Uri.parse(url), body: body);
+      print(response.statusCode);
+      print(response.body);
       return _handleResponse(response);
     } on SocketException {
       throw FetchDataException(
