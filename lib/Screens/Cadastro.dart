@@ -12,6 +12,12 @@ class Cadastro extends StatefulWidget {
 
 class _CadastroState extends State<Cadastro> {
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -27,6 +33,10 @@ class _CadastroState extends State<Cadastro> {
                   children: [
                     // https://i.imgur.com/plkT2Wt.png
                     Image.network('https://i.imgur.com/plkT2Wt.png'),
+                    FormFieldLogins(
+                        keyboardType: TextInputType.text,
+                        labelText: 'Apelido',
+                        textController: CadastroController.apelidoController),
                     FormFieldLogins(
                         keyboardType: TextInputType.text,
                         labelText: 'Nome',

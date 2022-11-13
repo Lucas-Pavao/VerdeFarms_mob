@@ -1,8 +1,8 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:verde_farm/Services/http_services.dart';
 import 'package:verde_farm/constants/apiConstants.dart';
 import 'package:verde_farm/models/register_model.dart';
+
+import '../controllers/cadastro_controller.dart';
 
 // void main() {
 //   RegisterServices.postRegister(Register(
@@ -57,6 +57,9 @@ class RegisterServices {
         'password2': register.password2,
       },
     );
-    return registerFromJason(response);
+
+    // print(response);
+    CadastroController.errorController = response;
+    return registerFromJason(response.body);
   }
 }

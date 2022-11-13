@@ -17,12 +17,12 @@ class HttpServices {
     }
   }
 
-  static Future<String> postData(String url, dynamic body) async {
+  static Future<http.Response> postData(String url, dynamic body) async {
     try {
       final response = await Backend.client.post(Uri.parse(url), body: body);
       print(response.statusCode);
       print(response.body);
-      return _handleResponse(response);
+      return response;
     } on SocketException {
       throw FetchDataException(
           "Falha ao conectar-se com o servidor. Verifique a sua conexão com a internet.");
@@ -32,6 +32,7 @@ class HttpServices {
   static Future<String> patchData(String url, dynamic body) async {
     try {
       final response = await Backend.client.patch(Uri.parse(url), body: body);
+      print(response.body);
       return _handleResponse(response);
     } on SocketException {
       throw FetchDataException(

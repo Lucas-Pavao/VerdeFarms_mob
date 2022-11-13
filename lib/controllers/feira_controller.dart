@@ -1,12 +1,25 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class FeiraController extends GetxController {
   final latitude = 0.0.obs;
   final longitude = 0.0.obs;
+  late StreamSubscription<Position> positionStream;
+
+  final LatLng _position = LatLng(0.0, 0.0);
+  late GoogleMapController _mapsController;
 
   static FeiraController get to => Get.find<FeiraController>();
+  get mapsController => _mapsController;
+  get position => _position;
+
+  onMapCreated(GoogleMapController gmc) async {
+    _mapsController = gmc;
+    getPosition();
+  }
 
   Future<Position> _posicaoAtual() async {
     LocationPermission permissao;
@@ -33,11 +46,28 @@ class FeiraController extends GetxController {
     return Geolocator.getCurrentPosition();
   }
 
+  watchPosition() async {
+    positionStream = Geolocator.getPositionStream().listen((Position position) {
+      if (position != null) {
+        latitude.value = position.latitude;
+        longitude.value = position.longitude;
+      }
+    });
+  }
+
+  @override
+  void onClose() {
+    positionStream.cancel();
+    super.onClose();
+  }
+
   getPosition() async {
     try {
       final posicao = await _posicaoAtual();
       latitude.value = posicao.latitude;
       longitude.value = posicao.longitude;
+      _mapsController.animateCamera(
+          CameraUpdate.newLatLng(LatLng(latitude.value, longitude.value)));
     } catch (e) {
       Get.snackbar("Error", e.toString(),
           backgroundColor: Colors.grey[900],
