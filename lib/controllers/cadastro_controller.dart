@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:verde_farm/Components/SnackBarError.dart';
 import 'package:verde_farm/Services/register_service.dart';
-import 'package:verde_farm/models/register_model.dart';
+import 'package:verde_farm/controllers/models/register_model.dart';
 import 'package:http/http.dart' as http;
 
 import '../Screens/login.dart';

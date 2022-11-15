@@ -1,6 +1,6 @@
 import 'package:verde_farm/Services/http_services.dart';
 import 'package:verde_farm/constants/apiConstants.dart';
-import 'package:verde_farm/models/register_model.dart';
+import 'package:verde_farm/controllers/models/register_model.dart';
 
 import '../controllers/cadastro_controller.dart';
 
