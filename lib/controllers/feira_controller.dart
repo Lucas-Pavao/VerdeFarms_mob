@@ -19,6 +19,7 @@ class FeiraController extends GetxController {
   onMapCreated(GoogleMapController gmc) async {
     _mapsController = gmc;
     getPosition();
+    watchPosition();
   }
 
   Future<Position> _posicaoAtual() async {
