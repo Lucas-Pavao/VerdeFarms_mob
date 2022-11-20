@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:verde_farm/Components/FormFieldLogins.dart';
+import 'package:get/get.dart';
+import 'package:verde_farm/Components/form_field_logins.dart';
 import 'package:verde_farm/Screens/mapa.dart';
-
-import '../Components/PassFormFieldLogins.dart';
+import 'package:verde_farm/controllers/login_controller.dart';
+import '../Components/pass_form_field_logins.dart';
 import 'cadastro.dart';
 
 class LoginPage extends StatefulWidget {
@@ -30,17 +31,20 @@ class _LoginPageState extends State<LoginPage> {
                     keyboardType: TextInputType.emailAddress,
                     labelText: 'Email',
                     autofocus: true,
+                    textController: LoginController.emailController,
                   ),
                   const Divider(),
                   PassFormFieldLogins(
                     labelText: 'Senha',
                     autofocus: true,
                     keyboardType: TextInputType.text,
+                    textEditingController: LoginController.passwordController,
                   ),
                   const Divider(),
                   ElevatedButton(
-                    onPressed: () => Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const Mapa())),
+                    onPressed: () {
+                      LoginController.performSignIn(context);
+                    },
                     style: TextButton.styleFrom(
                         elevation: 0,
                         // backgroundColor: Colors.deepPurple,
@@ -53,10 +57,9 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                     TextButton(
-                        onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Cadastro())),
+                        onPressed: () {
+                          Get.to(const Cadastro());
+                        },
                         child: const Text('Cadastrar'))
                   ]),
                 ]),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:verde_farm/Components/FormFieldLogins.dart';
-import 'package:verde_farm/Components/PassFormFieldLogins.dart';
+import 'package:verde_farm/Components/form_field_logins.dart';
+import 'package:verde_farm/Components/pass_form_field_logins.dart';
 import 'package:verde_farm/controllers/cadastro_controller.dart';
 
 class Cadastro extends StatefulWidget {
@@ -11,12 +11,6 @@ class Cadastro extends StatefulWidget {
 }
 
 class _CadastroState extends State<Cadastro> {
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

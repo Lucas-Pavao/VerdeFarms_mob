@@ -1,14 +1,16 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:verde_farm/Components/SnackBarError.dart';
+import 'package:get/get.dart';
 import 'package:verde_farm/Services/register_service.dart';
-import 'package:verde_farm/controllers/models/register_model.dart';
+import 'package:verde_farm/models/register_model.dart';
 import 'package:http/http.dart' as http;
 
 import '../Screens/login.dart';
 
-class CadastroController {
+class CadastroController extends GetxController {
+  static CadastroController get to => Get.find<CadastroController>();
+
   static final TextEditingController apelidoController =
       TextEditingController();
   static final TextEditingController firstNameController =
@@ -20,6 +22,18 @@ class CadastroController {
   static final TextEditingController confSenhaController =
       TextEditingController();
   static late final http.Response errorController;
+
+  @override
+  void onClose() {
+    apelidoController.dispose();
+    firstNameController.dispose();
+    lastNameController.dispose();
+    emailController.dispose();
+    senhaController.dispose();
+    confSenhaController.dispose();
+    print("TextControllers removidos da memória.");
+    super.onClose();
+  }
 
   static Future<void> cadastrar(BuildContext context) async {
     final String apelido = apelidoController.text;
@@ -46,11 +60,10 @@ class CadastroController {
         );
         try {
           await RegisterServices.postRegister(register);
-          SnackBarError()
-              .showSnackBar(context, "Cadastro realizado com secesso");
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => LoginPage()));
-        } catch (errorController) {
+          Get.snackbar("Sucesso!", "Cadastro realizado com secesso!");
+          Get.to(const LoginPage());
+        } catch (e) {
+          print(e);
           // {"username":["A user with that username already exists."],
           //"password":["This password is too short. It must contain at least 8 characters.","This password is too common.","This password is entirely numeric."],
           //"email":["This field must be unique."]}
@@ -59,36 +72,35 @@ class CadastroController {
           try {
             List usernameError = json['username'];
             for (var element in usernameError) {
-              SnackBarError().showSnackBar(context, element);
+              Get.snackbar("Atenção!", element);
             }
-          } catch (userError) {
-            print(userError);
+          } catch (erro) {
+            print(erro);
           }
 
           try {
             List emailError = json['email'];
             for (var element in emailError) {
-              SnackBarError().showSnackBar(context, element);
+              Get.snackbar("Atenção!", element);
             }
-          } catch (eError) {
-            print(eError);
+          } catch (erro) {
+            print(erro);
           }
 
           try {
             List passwordError = json['password'];
             for (var element in passwordError) {
-              SnackBarError().showSnackBar(context, element);
+              Get.snackbar("Atenção!", element);
             }
-          } catch (passError) {
-            print(passError);
+          } catch (error) {
+            print(error);
           }
         }
       } else {
-        SnackBarError().showSnackBar(context, "As senhas não coincidem!");
+        Get.snackbar("Atenção!", "As senhas não coincidem!");
       }
     } else {
-      SnackBarError()
-          .showSnackBar(context, "Todos os campos devem ser preenchidos!");
+      Get.snackbar("Atenção!", "Todos os campos devem ser preenchidos!");
     }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../Screens/cadastro.dart';
 import '../Screens/login.dart';
 
@@ -30,13 +31,14 @@ class LoginNavBar extends StatelessWidget {
                     elevation: MaterialStateProperty.all<double>(0),
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.blueGrey)),
-                onPressed: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Cadastro())),
+                onPressed: () {
+                  Get.to(const Cadastro());
+                },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.account_circle),
-                    Text('Cadastrar'),
+                    const Icon(Icons.account_circle),
+                    const Text('Cadastrar'),
                   ],
                 ),
               ),
@@ -51,13 +53,14 @@ class LoginNavBar extends StatelessWidget {
                         MaterialStateProperty.all<Color>(Colors.blueGrey),
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.blueGrey)),
-                onPressed: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const LoginPage())),
+                onPressed: () {
+                  Get.to(const LoginPage());
+                },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.login),
-                    Text('Login'),
+                    const Icon(Icons.login),
+                    const Text('Login'),
                   ],
                 ),
               ),

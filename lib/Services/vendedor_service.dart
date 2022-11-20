@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import 'package:verde_farm/constants/apiConstants.dart';
-import 'package:verde_farm/controllers/models/vendedor_model.dart';
+import 'package:verde_farm/models/vendedor_model.dart';
 
 // void main() {
 //   VEndedorServices.postCadastro(Vendedor(

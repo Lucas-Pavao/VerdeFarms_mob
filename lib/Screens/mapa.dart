@@ -23,7 +23,7 @@ class Mapa extends StatelessWidget {
                     compassEnabled: true,
                     mapToolbarEnabled: false,
                     mapType: MapType.normal,
-                    myLocationEnabled: true,
+                    myLocationEnabled: false,
                     myLocationButtonEnabled: true,
                     zoomControlsEnabled: false,
                     initialCameraPosition: CameraPosition(
@@ -32,7 +32,7 @@ class Mapa extends StatelessWidget {
                     ),
                     onMapCreated: controller.onMapCreated,
                   )),
-          Positioned(
+          const Positioned(
             bottom: 0,
             child: LoginNavBar(),
           ),

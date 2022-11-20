@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:verde_farm/Screens/mapa.dart';
 import 'package:flutter_config/flutter_config.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Required by FlutterConfig
   await FlutterConfig.loadEnvVariables();
-  runApp(VerdeFarm());
+  runApp(const VerdeFarm());
 }
 
 class VerdeFarm extends StatelessWidget {
@@ -13,12 +14,12 @@ class VerdeFarm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: Mapa(),
+      home: const Mapa(),
     );
   }
 }
