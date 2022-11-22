@@ -42,8 +42,9 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const Divider(),
                   ElevatedButton(
-                    onPressed: () {
-                      LoginController.performSignIn(context);
+                    onPressed: () async {
+                      LoginController loginController = LoginController();
+                      await loginController.performSignIn(context);
                     },
                     style: TextButton.styleFrom(
                         elevation: 0,

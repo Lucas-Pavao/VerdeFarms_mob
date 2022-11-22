@@ -4,7 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class FeiraController extends GetxController {
+class MapaController extends GetxController {
   final latitude = 0.0.obs;
   final longitude = 0.0.obs;
   late StreamSubscription<Position> positionStream;
@@ -12,7 +12,7 @@ class FeiraController extends GetxController {
   final LatLng _position = LatLng(0.0, 0.0);
   late GoogleMapController _mapsController;
 
-  static FeiraController get to => Get.find<FeiraController>();
+  static MapaController get to => Get.find<MapaController>();
   get mapsController => _mapsController;
   get position => _position;
 

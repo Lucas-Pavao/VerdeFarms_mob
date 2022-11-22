@@ -21,7 +21,7 @@ class CadastroController extends GetxController {
   static final TextEditingController senhaController = TextEditingController();
   static final TextEditingController confSenhaController =
       TextEditingController();
-  static late final http.Response errorController;
+  static late http.Response errorController;
 
   @override
   void onClose() {
@@ -59,14 +59,11 @@ class CadastroController extends GetxController {
           username: apelido,
         );
         try {
-          await RegisterServices.postRegister(register);
           Get.snackbar("Sucesso!", "Cadastro realizado com secesso!");
           Get.to(const LoginPage());
+          await RegisterServices.postRegister(register);
         } catch (e) {
           print(e);
-          // {"username":["A user with that username already exists."],
-          //"password":["This password is too short. It must contain at least 8 characters.","This password is too common.","This password is entirely numeric."],
-          //"email":["This field must be unique."]}
           var json = jsonDecode(CadastroController.errorController.body);
 
           try {

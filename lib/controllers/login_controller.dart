@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:verde_farm/Screens/mapa.dart';
 import '../Services/user_service.dart';
 import '../constants/general_constants.dart';
-import '../models/autorizacao_model.dart';
 import 'package:http/http.dart' as http;
 
 class LoginController extends GetxController {
@@ -13,7 +12,7 @@ class LoginController extends GetxController {
   static final TextEditingController emailController = TextEditingController();
   static final TextEditingController passwordController =
       TextEditingController();
-  static late final http.Response errorController;
+  static late http.Response errorController;
 
   @override
   void onClose() {
@@ -23,26 +22,30 @@ class LoginController extends GetxController {
     super.onClose();
   }
 
-  static Future<void> performSignIn(BuildContext context) async {
+  Future<void> performSignIn(BuildContext context) async {
     final String email = emailController.text;
     final String password = passwordController.text;
 
     if (email.isNotEmpty && password.isNotEmpty) {
       try {
-        final AuthResponse response =
-            await UserService.authUser(email, password);
+        final response = await UserService.authUser(email, password);
+        errorController = response;
         GeneralConstants.authUser = response;
-        Get.to(const Mapa());
+        if (response.statusCode == 200) {
+          var json = jsonDecode(response.body);
+          GeneralConstants.prefs.setString("token", json['access']);
+          Get.snackbar("Sucesso!", "Login relizado com sucesso");
+          Get.to(const Mapa());
+        }
       } catch (e) {
-        print(e);
-        var json = jsonDecode(LoginController.errorController.body);
-        try {
-          List errorlog = json['detail'];
-          for (var element in errorlog) {
-            Get.snackbar("Atenção!", element);
+        var json = jsonDecode(errorController.body);
+        if (errorController.statusCode == 401) {
+          try {
+            passwordController.clear();
+            Get.snackbar("Atenção!", json['detail']);
+          } catch (erro) {
+            print(erro);
           }
-        } catch (erro) {
-          print(erro);
         }
       }
     } else {

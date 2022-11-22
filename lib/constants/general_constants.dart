@@ -1,26 +1,22 @@
-import '../models/autorizacao_model.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:http/http.dart' as http;
 
 class GeneralConstants {
-  // static late SharedPreferences prefs;
-  static AuthResponse? authUser;
+  static late SharedPreferences prefs;
+  static http.Response? authUser;
+  static RxBool isLoged = false.obs;
 
-  // void initSharedPrefs() async {
-  //   prefs = await SharedPreferences.getInstance();
-  // }
+  void initSharedPrefs() async {
+    prefs = await SharedPreferences.getInstance();
+  }
 
-  // Future<void> checkLoggedUser() async {
-  //   GeneralConstants.prefs = await SharedPreferences.getInstance();
-  //   bool? isLoggedIn = prefs.getBool('isLoggedIn');
-  //   print("Main onInit called: Logged user? $isLoggedIn");
-  //   if (isLoggedIn == true) {
-  //     String emailUser = prefs.getString('email')!;
-  //     String passwordUser = prefs.getString('password')!;
-  //     print(emailUser);
-  //     print(passwordUser);
-  //     final AuthResponse user =
-  //         await UserService.authUser(emailUser, passwordUser);
-  //     authUser = user;
-  //     print("Usuário encontrado!");
-  //   }
-  // }
+  Future<void> checkLoggedUser() async {
+    GeneralConstants.prefs = await SharedPreferences.getInstance();
+
+    if (prefs.getString('token') != null) {
+      isLoged(true);
+    }
+  }
 }
