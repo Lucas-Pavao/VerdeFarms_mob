@@ -20,7 +20,6 @@ class _MapaState extends State<Mapa> {
   void initState() {
     // TODO: implement initState
     GeneralConstants generalConstants = GeneralConstants();
-    generalConstants.initSharedPrefs();
     generalConstants.checkLoggedUser();
     String? token = GeneralConstants.prefs.getString('token');
     print(token);
