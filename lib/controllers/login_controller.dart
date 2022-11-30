@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:verde_farm/Screens/mapa.dart';
+import 'package:verde_farm/Screens/home_page.dart';
 import '../Services/user_service.dart';
 import '../constants/general_constants.dart';
 import 'package:http/http.dart' as http;
@@ -35,7 +35,7 @@ class LoginController extends GetxController {
           var json = jsonDecode(response.body);
           GeneralConstants.prefs.setString("token", json['access']);
           Get.snackbar("Sucesso!", "Login relizado com sucesso");
-          Get.to(const Mapa());
+          Get.off(const HomePage());
         }
       } catch (e) {
         var json = jsonDecode(errorController.body);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:verde_farm/Screens/home_page.dart';
 import 'package:verde_farm/Screens/mapa.dart';
 import 'package:flutter_config/flutter_config.dart';
 
@@ -23,7 +24,9 @@ class VerdeFarm extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: const Mapa(),
+      home: Obx(() {
+        return GeneralConstants.isLoged() ? const HomePage() : const Mapa();
+      }),
     );
   }
 }

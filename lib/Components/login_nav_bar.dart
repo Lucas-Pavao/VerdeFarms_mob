@@ -12,7 +12,7 @@ class LoginNavBar extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.1,
       decoration: const BoxDecoration(
-        color: Colors.blueGrey,
+        color: Colors.black,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(30),
           topRight: Radius.circular(30),
@@ -30,15 +30,15 @@ class LoginNavBar extends StatelessWidget {
                 style: ButtonStyle(
                     elevation: MaterialStateProperty.all<double>(0),
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.blueGrey)),
+                        MaterialStateProperty.all<Color>(Colors.black)),
                 onPressed: () {
                   Get.to(const Cadastro());
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.account_circle),
-                    const Text('Cadastrar'),
+                  children: const [
+                    Icon(Icons.account_circle),
+                    Text('Cadastrar'),
                   ],
                 ),
               ),
@@ -49,18 +49,17 @@ class LoginNavBar extends StatelessWidget {
               child: ElevatedButton(
                 style: ButtonStyle(
                     elevation: MaterialStateProperty.all<double>(0),
-                    shadowColor:
-                        MaterialStateProperty.all<Color>(Colors.blueGrey),
+                    shadowColor: MaterialStateProperty.all<Color>(Colors.black),
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.blueGrey)),
+                        MaterialStateProperty.all<Color>(Colors.black)),
                 onPressed: () {
                   Get.to(const LoginPage());
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.login),
-                    const Text('Login'),
+                  children: const [
+                    Icon(Icons.login),
+                    Text('Login'),
                   ],
                 ),
               ),
