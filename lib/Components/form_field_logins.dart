@@ -5,7 +5,7 @@ class FormFieldLogins extends StatefulWidget {
   final String labelText;
   final TextEditingController? textController;
   final TextInputType keyboardType;
-  FormFieldLogins({
+  const FormFieldLogins({
     super.key,
     this.autofocus = false,
     required this.keyboardType,

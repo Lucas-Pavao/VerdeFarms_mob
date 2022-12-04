@@ -35,18 +35,19 @@ class LoginController extends GetxController {
           var json = jsonDecode(response.body);
           GeneralConstants.prefs.setString("token", json['access']);
           Get.snackbar("Sucesso!", "Login relizado com sucesso");
-          Get.off(const HomePage());
+          Get.offAll(const HomePage());
         }
-      } catch (e) {
-        var json = jsonDecode(errorController.body);
-        if (errorController.statusCode == 401) {
+        if (response.statusCode == 401) {
           try {
-            passwordController.clear();
+            var json = jsonDecode(errorController.body);
             Get.snackbar("Atenção!", json['detail']);
+            passwordController.clear();
           } catch (erro) {
             print(erro);
           }
         }
+      } catch (e) {
+        print(e);
       }
     } else {
       Get.snackbar('Error', "Preencha todos os campos");

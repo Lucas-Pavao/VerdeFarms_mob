@@ -2,9 +2,11 @@ import 'package:http/http.dart' as http;
 
 class Backend {
   static final http.Client client = http.Client();
-
-  static const String baseURL = "http://10.0.2.2:8000/api";
-  static const String loginURL = "http://10.0.2.2:8000/token/";
+  // 10.0.0.156
+  static const String baseURL = "http://10.0.2.2:8000/api"; //Emulador
+  // static const String baseURL = "http://192.168.1.102:8000/api";
+  static const String loginURL = "http://10.0.2.2:8000/token/"; //Emulador
+  // static const String loginURL = "http://192.168.1.102:8000/token/";
   static const String registerURL = "$baseURL/register";
   static const String usersURL = "$baseURL/users/";
   static const String vendedorURL = "$baseURL/vendedor/";

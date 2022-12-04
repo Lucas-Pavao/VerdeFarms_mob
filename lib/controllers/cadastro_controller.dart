@@ -59,9 +59,11 @@ class CadastroController extends GetxController {
           username: apelido,
         );
         try {
-          Get.snackbar("Sucesso!", "Cadastro realizado com secesso!");
-          Get.to(const LoginPage());
           await RegisterServices.postRegister(register);
+          if (CadastroController.errorController.statusCode == 200) {
+            Get.snackbar("Sucesso!", "Cadastro realizado com secesso!");
+            Get.off(const LoginPage());
+          }
         } catch (e) {
           print(e);
           var json = jsonDecode(CadastroController.errorController.body);

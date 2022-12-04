@@ -16,35 +16,38 @@ class _MapaState extends State<Mapa> {
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
+
     GeneralConstants generalConstants = GeneralConstants();
     generalConstants.checkLoggedUser();
     String? token = GeneralConstants.prefs.getString('token');
     print(token);
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(MapaController());
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
         children: [
           GetBuilder<MapaController>(
-              init: controller,
-              builder: (value) => GoogleMap(
-                    compassEnabled: true,
-                    mapToolbarEnabled: false,
-                    mapType: MapType.normal,
-                    myLocationEnabled: false,
-                    myLocationButtonEnabled: true,
-                    zoomControlsEnabled: false,
-                    initialCameraPosition: CameraPosition(
-                      target: controller.position,
-                      zoom: 13,
-                    ),
-                    onMapCreated: controller.onMapCreated,
-                  )),
+            init: controller,
+            builder: (value) => GoogleMap(
+              compassEnabled: true,
+              mapToolbarEnabled: false,
+              mapType: MapType.normal,
+              myLocationEnabled: false,
+              myLocationButtonEnabled: true,
+              zoomControlsEnabled: false,
+              initialCameraPosition: CameraPosition(
+                target: controller.position,
+                zoom: 13,
+              ),
+              onMapCreated: controller.onMapCreated,
+            ),
+          ),
           Obx(() {
             return Positioned(
               bottom: 0,

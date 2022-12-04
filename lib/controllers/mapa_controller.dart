@@ -9,7 +9,7 @@ class MapaController extends GetxController {
   final longitude = 0.0.obs;
   late StreamSubscription<Position> positionStream;
 
-  final LatLng _position = LatLng(0.0, 0.0);
+  final LatLng _position = const LatLng(0.0, 0.0);
   late GoogleMapController _mapsController;
 
   static MapaController get to => Get.find<MapaController>();

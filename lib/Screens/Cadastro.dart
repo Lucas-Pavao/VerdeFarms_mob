@@ -12,6 +12,18 @@ class Cadastro extends StatefulWidget {
 
 class _CadastroState extends State<Cadastro> {
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    CadastroController.apelidoController.dispose();
+    CadastroController.firstNameController.dispose();
+    CadastroController.lastNameController.dispose();
+    CadastroController.emailController.dispose();
+    CadastroController.senhaController.dispose();
+    CadastroController.confSenhaController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,

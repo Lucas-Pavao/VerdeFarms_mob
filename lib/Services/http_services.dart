@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import '../constants/apiConstants.dart';
+import '../constants/api_constants.dart';
 import '../utils/http_exceptions.dart';
 
 class HttpServices {

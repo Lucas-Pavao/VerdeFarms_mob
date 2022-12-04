@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:verde_farm/Screens/favoritos.dart';
 import 'package:verde_farm/Screens/mapa.dart';
@@ -20,7 +19,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     // TODO: implement initState
+
     pc = PageController(initialPage: paginaAtual);
+
     super.initState();
   }
 
@@ -36,7 +37,7 @@ class _HomePageState extends State<HomePage> {
         child: GNav(
           backgroundColor: Colors.black,
           color: Colors.white,
-          activeColor: Colors.lightGreenAccent[400],
+          activeColor: Colors.green[400],
           selectedIndex: paginaAtual,
           onTabChange: (value) => {
             pc.animateToPage(value,
