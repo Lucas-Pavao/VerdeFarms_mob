@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:verde_farm/Components/drop_dowm_dados.dart';
 import 'package:verde_farm/controllers/perfil_controller.dart';
 
 import 'mapa.dart';
@@ -12,6 +13,16 @@ class Perfil extends StatefulWidget {
 }
 
 class _PerfilState extends State<Perfil> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.delayed(const Duration(milliseconds: 100), () async {
+      await PerfilController.loadPerfil();
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,17 +94,21 @@ class _PerfilState extends State<Perfil> {
             padding: const EdgeInsets.all(15.0),
             child: SafeArea(
               child: Column(
-                children: const [
+                children: [
                   Text(
-                    'Aqui vai o apelido',
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    'Aqui vai o nome',
-                    style: TextStyle(fontSize: 16),
+                    '${PerfilController.username}',
+                    style: const TextStyle(
+                        fontSize: 25, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
+            ),
+          ),
+          SingleChildScrollView(
+            child: Column(
+              children: const [
+                DropDowmDados(),
+              ],
             ),
           ),
           ElevatedButton(

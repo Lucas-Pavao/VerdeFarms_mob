@@ -1,13 +1,24 @@
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import '../constants/api_constants.dart';
+import '../controllers/login_provider.dart';
 import '../utils/http_exceptions.dart';
+
+Map<String, String>? getHeaders() {
+  final Map<String, String> headers = <String, String>{
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Authorization': '${LoginProvider.token}',
+  };
+  return headers;
+}
 
 class HttpServices {
   static Future<http.Response> getData(String url) async {
     try {
       final response = await Backend.client.get(
         Uri.parse(url),
+        headers: getHeaders(),
       );
       return response;
     } on SocketException {

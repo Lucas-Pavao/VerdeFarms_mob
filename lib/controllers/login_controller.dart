@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:verde_farm/Screens/home_page.dart';
 import '../Services/user_service.dart';
-import '../constants/general_constants.dart';
+import 'login_provider.dart';
 import 'package:http/http.dart' as http;
 
 class LoginController extends GetxController {
@@ -30,10 +30,12 @@ class LoginController extends GetxController {
       try {
         final response = await UserService.authUser(email, password);
         errorController = response;
-        GeneralConstants.authUser = response;
+        LoginProvider.authUser = response;
         if (response.statusCode == 200) {
           var json = jsonDecode(response.body);
-          GeneralConstants.prefs.setString("token", json['access']);
+          LoginProvider.prefs.setString("email", email);
+          LoginProvider.token = json['token'];
+          LoginProvider.prefs.setString("token", json['access']);
           Get.snackbar("Sucesso!", "Login relizado com sucesso");
           Get.offAll(const HomePage());
         }

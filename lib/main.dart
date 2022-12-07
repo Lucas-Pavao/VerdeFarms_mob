@@ -5,13 +5,15 @@ import 'package:verde_farm/Screens/home_page.dart';
 import 'package:verde_farm/Screens/mapa.dart';
 import 'package:flutter_config/flutter_config.dart';
 
-import 'constants/general_constants.dart';
+import 'controllers/login_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Required by FlutterConfig
   await FlutterConfig.loadEnvVariables();
-  GeneralConstants generalConstants = GeneralConstants();
-  await generalConstants.initSharedPrefs();
+  Future.delayed(
+    const Duration(milliseconds: 100),
+    () => LoginProvider.isLoged(),
+  );
   runApp(const VerdeFarm());
 }
 
@@ -27,7 +29,7 @@ class VerdeFarm extends StatelessWidget {
         primarySwatch: Colors.green,
       ),
       home: Obx(() {
-        return GeneralConstants.isLoged() ? const HomePage() : const Mapa();
+        return LoginProvider.isLoged() ? const HomePage() : const Mapa();
       }),
     );
   }

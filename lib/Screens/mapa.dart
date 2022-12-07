@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:verde_farm/constants/general_constants.dart';
+import 'package:verde_farm/controllers/login_provider.dart';
 import 'package:verde_farm/controllers/mapa_controller.dart';
 import '../Components/login_nav_bar.dart';
 
@@ -16,12 +16,12 @@ class _MapaState extends State<Mapa> {
   @override
   void initState() {
     // TODO: implement initState
-
-    GeneralConstants generalConstants = GeneralConstants();
-    generalConstants.checkLoggedUser();
-    String? token = GeneralConstants.prefs.getString('token');
-    print(token);
+    // String? token = GeneralConstants.prefs.getString('token');
+    // print(token);
     super.initState();
+    Future.delayed(Duration(milliseconds: 200), () {
+      LoginProvider.checkLoggedUser();
+    });
   }
 
   @override
@@ -38,7 +38,7 @@ class _MapaState extends State<Mapa> {
               compassEnabled: true,
               mapToolbarEnabled: false,
               mapType: MapType.normal,
-              myLocationEnabled: false,
+              myLocationEnabled: true,
               myLocationButtonEnabled: true,
               zoomControlsEnabled: false,
               initialCameraPosition: CameraPosition(
@@ -51,7 +51,7 @@ class _MapaState extends State<Mapa> {
           Obx(() {
             return Positioned(
               bottom: 0,
-              child: GeneralConstants.isLoged()
+              child: LoginProvider.isLoged()
                   ? const SizedBox(
                       height: 0,
                       width: 0,
