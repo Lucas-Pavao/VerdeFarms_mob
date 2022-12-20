@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:verde_farm/Services/register_service.dart';
-import 'package:verde_farm/models/register_model.dart';
+import 'package:verde_farm/feature/Cadastro/Model/register_model.dart';
 import 'package:http/http.dart' as http;
 
-import '../Screens/login.dart';
+import '../../Login/View/login.dart';
 
 class CadastroController extends GetxController {
   static CadastroController get to => Get.find<CadastroController>();
@@ -60,7 +60,7 @@ class CadastroController extends GetxController {
         );
         try {
           await RegisterServices.postRegister(register);
-          if (CadastroController.errorController.statusCode == 200) {
+          if (CadastroController.errorController.statusCode == 201) {
             Get.snackbar("Sucesso!", "Cadastro realizado com secesso!");
             Get.off(const LoginPage());
           }

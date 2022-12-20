@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:verde_farm/controllers/login_provider.dart';
-import 'package:verde_farm/controllers/mapa_controller.dart';
-import '../Components/login_nav_bar.dart';
+import 'package:verde_farm/feature/Login/Controllers/login_provider.dart';
+import 'package:verde_farm/feature/Mapa/Controller/mapa_controller.dart';
+import '../../../Components/login_nav_bar.dart';
 
 class Mapa extends StatefulWidget {
   const Mapa({super.key});
@@ -46,6 +46,34 @@ class _MapaState extends State<Mapa> {
                 zoom: 13,
               ),
               onMapCreated: controller.onMapCreated,
+            ),
+          ),
+          Positioned(
+            bottom: 10,
+            right: 10,
+            child: Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.green[600],
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 1,
+                    blurRadius: 7,
+                    offset: const Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+              ),
+              child: IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.location_on_outlined,
+                  color: Colors.white,
+                  weight: Checkbox.width,
+                ),
+              ),
             ),
           ),
           Obx(() {

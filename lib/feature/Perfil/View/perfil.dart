@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:verde_farm/Components/drop_dowm_dados.dart';
-import 'package:verde_farm/controllers/perfil_controller.dart';
+import 'package:verde_farm/feature/Perfil/View/drop_dowm_dados.dart';
+import 'package:verde_farm/feature/Perfil/Controllers/perfil_controller.dart';
 
-import 'mapa.dart';
+import '../../Mapa/View/mapa.dart';
 
 class Perfil extends StatefulWidget {
   const Perfil({super.key});
@@ -17,10 +17,6 @@ class _PerfilState extends State<Perfil> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future.delayed(const Duration(milliseconds: 100), () async {
-      await PerfilController.loadPerfil();
-      setState(() {});
-    });
   }
 
   @override

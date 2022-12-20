@@ -20,6 +20,8 @@ class MapaController extends GetxController {
     _mapsController = gmc;
     getPosition();
     watchPosition();
+    // loadFeiras();
+    // loadVendedores();
   }
 
   Future<Position> _posicaoAtual() async {

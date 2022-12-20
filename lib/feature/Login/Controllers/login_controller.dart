@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:verde_farm/Screens/home_page.dart';
-import '../Services/user_service.dart';
+import 'package:verde_farm/home_page.dart';
+import '../../../Services/user_service.dart';
 import 'login_provider.dart';
 import 'package:http/http.dart' as http;
 

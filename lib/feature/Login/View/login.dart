@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:verde_farm/Components/form_field_logins.dart';
-import 'package:verde_farm/Screens/mapa.dart';
-import 'package:verde_farm/controllers/login_controller.dart';
-import '../Components/pass_form_field_logins.dart';
-import 'cadastro.dart';
+import 'package:verde_farm/feature/Mapa/View/mapa.dart';
+import 'package:verde_farm/feature/Login/Controllers/login_controller.dart';
+import '../../../Components/pass_form_field_logins.dart';
+import '../../Cadastro/View/cadastro.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

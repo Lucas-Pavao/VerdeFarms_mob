@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:verde_farm/Screens/favoritos.dart';
-import 'package:verde_farm/Screens/mapa.dart';
-import 'package:verde_farm/Screens/perfil.dart';
-import 'package:verde_farm/Screens/vendedor.dart';
+import 'package:verde_farm/feature/Favorito/View/favoritos.dart';
+import 'package:verde_farm/feature/Mapa/View/mapa.dart';
+import 'package:verde_farm/feature/Perfil/View/perfil.dart';
+import 'package:verde_farm/feature/Vender/View/vendedor.dart';
+import 'package:verde_farm/feature/Perfil/Controllers/perfil_controller.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,10 +20,12 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     // TODO: implement initState
-
-    pc = PageController(initialPage: paginaAtual);
-
     super.initState();
+    pc = PageController(initialPage: paginaAtual);
+    Future.delayed(const Duration(milliseconds: 100), () async {
+      await PerfilController.loadPerfil();
+      setState(() {});
+    });
   }
 
   @override
@@ -50,12 +53,12 @@ class _HomePageState extends State<HomePage> {
               text: 'Home',
             ),
             GButton(
-              icon: Icons.favorite,
+              icon: Icons.favorite_border,
               text: 'Favoritos',
             ),
             GButton(
               icon: Icons.discount_outlined,
-              text: 'Vender',
+              text: 'Feiras',
             ),
             GButton(
               icon: Icons.account_circle_outlined,

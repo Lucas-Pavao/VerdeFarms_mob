@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:verde_farm/Screens/home_page.dart';
-import 'package:verde_farm/Screens/mapa.dart';
+import 'package:verde_farm/home_page.dart';
+import 'package:verde_farm/feature/Mapa/View/mapa.dart';
 import 'package:flutter_config/flutter_config.dart';
 
-import 'controllers/login_provider.dart';
+import 'feature/Login/Controllers/login_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Required by FlutterConfig

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../Screens/cadastro.dart';
-import '../Screens/login.dart';
+import '../feature/Cadastro/View/cadastro.dart';
+import '../feature/Login/View/login.dart';
 
 class LoginNavBar extends StatelessWidget {
   const LoginNavBar({super.key});

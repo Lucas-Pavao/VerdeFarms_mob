@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:verde_farm/Components/form_field_logins.dart';
 import 'package:verde_farm/Components/pass_form_field_logins.dart';
-import 'package:verde_farm/controllers/cadastro_controller.dart';
+import 'package:verde_farm/feature/Cadastro/Controllers/cadastro_controller.dart';
 
 class Cadastro extends StatefulWidget {
   const Cadastro({super.key});

@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import '../constants/api_constants.dart';
-import '../controllers/login_provider.dart';
+import '../feature/Login/Controllers/login_provider.dart';
 import '../utils/http_exceptions.dart';
 
 Map<String, String>? getHeaders() {
@@ -39,9 +39,9 @@ class HttpServices {
     }
   }
 
-  static Future<http.Response> patchData(String url, dynamic body) async {
+  static Future<http.Response> putData(String url, dynamic body) async {
     try {
-      final response = await Backend.client.patch(Uri.parse(url), body: body);
+      final response = await Backend.client.put(Uri.parse(url), body: body);
       print(response.body);
       return response;
     } on SocketException {
