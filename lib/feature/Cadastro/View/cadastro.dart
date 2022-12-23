@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:verde_farm/Components/form_field_logins.dart';
-import 'package:verde_farm/Components/pass_form_field_logins.dart';
+import 'package:verde_farm/feature/Login/View/Components/form_field_logins.dart';
+import 'package:verde_farm/feature/Login/View/Components/pass_form_field_logins.dart';
 import 'package:verde_farm/feature/Cadastro/Controllers/cadastro_controller.dart';
 
 class Cadastro extends StatefulWidget {
@@ -11,9 +11,9 @@ class Cadastro extends StatefulWidget {
 }
 
 class _CadastroState extends State<Cadastro> {
+  CadastroController cadastroController = CadastroController();
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     CadastroController.apelidoController.dispose();
     CadastroController.firstNameController.dispose();
@@ -66,7 +66,7 @@ class _CadastroState extends State<Cadastro> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    await CadastroController.cadastrar(context);
+                    await cadastroController.cadastrar(context);
                   },
                   style: TextButton.styleFrom(
                       elevation: 0,

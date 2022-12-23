@@ -1,15 +1,11 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 import 'package:verde_farm/Services/register_service.dart';
 import 'package:verde_farm/feature/Cadastro/Model/register_model.dart';
-import 'package:http/http.dart' as http;
-
 import '../../Login/View/login.dart';
 
-class CadastroController extends GetxController {
-  static CadastroController get to => Get.find<CadastroController>();
+class CadastroController {
+  RegisterServices registerServices = RegisterServices();
 
   static final TextEditingController apelidoController =
       TextEditingController();
@@ -21,21 +17,8 @@ class CadastroController extends GetxController {
   static final TextEditingController senhaController = TextEditingController();
   static final TextEditingController confSenhaController =
       TextEditingController();
-  static late http.Response errorController;
 
-  @override
-  void onClose() {
-    apelidoController.dispose();
-    firstNameController.dispose();
-    lastNameController.dispose();
-    emailController.dispose();
-    senhaController.dispose();
-    confSenhaController.dispose();
-    print("TextControllers removidos da memória.");
-    super.onClose();
-  }
-
-  static Future<void> cadastrar(BuildContext context) async {
+  Future<void> cadastrar(BuildContext context) async {
     final String apelido = apelidoController.text;
     final String nome = firstNameController.text;
     final String sobrenome = lastNameController.text;
@@ -51,49 +34,48 @@ class CadastroController extends GetxController {
         confSenha.isNotEmpty) {
       if (senha == confSenha) {
         Register register = Register(
-          first_name: nome,
-          last_name: sobrenome,
+          firstName: nome,
+          lastName: sobrenome,
           email: email,
           password: senha,
           password2: confSenha,
           username: apelido,
         );
         try {
-          await RegisterServices.postRegister(register);
-          if (CadastroController.errorController.statusCode == 201) {
-            Get.snackbar("Sucesso!", "Cadastro realizado com secesso!");
-            Get.off(const LoginPage());
-          }
+          await registerServices.postRegister(register);
+          Get.snackbar("Sucesso!", "Cadastro realizado com secesso!");
+          Get.off(const LoginPage());
+          // Navigator.of(context).pushReplacement(
+          //     MaterialPageRoute(builder: (context) => const LoginPage()));
         } catch (e) {
-          print(e);
-          var json = jsonDecode(CadastroController.errorController.body);
+          debugPrint(e.toString());
 
-          try {
-            List usernameError = json['username'];
-            for (var element in usernameError) {
-              Get.snackbar("Atenção!", element);
-            }
-          } catch (erro) {
-            print(erro);
-          }
+          //   try {
+          //     List usernameError = json['username'];
+          //     for (var element in usernameError) {
+          //       Get.snackbar("Atenção!", element);
+          //     }
+          //   } catch (erro) {
+          //     debugPrint(erro.toString());
+          //   }
 
-          try {
-            List emailError = json['email'];
-            for (var element in emailError) {
-              Get.snackbar("Atenção!", element);
-            }
-          } catch (erro) {
-            print(erro);
-          }
+          //   try {
+          //     List emailError = json['email'];
+          //     for (var element in emailError) {
+          //       Get.snackbar("Atenção!", element);
+          //     }
+          //   } catch (erro) {
+          //     debugPrint(erro.toString());
+          //   }
 
-          try {
-            List passwordError = json['password'];
-            for (var element in passwordError) {
-              Get.snackbar("Atenção!", element);
-            }
-          } catch (error) {
-            print(error);
-          }
+          //   try {
+          //     List passwordError = json['password'];
+          //     for (var element in passwordError) {
+          //       Get.snackbar("Atenção!", element);
+          //     }
+          //   } catch (error) {
+          //     debugPrint(error.toString());
+          //   }
         }
       } else {
         Get.snackbar("Atenção!", "As senhas não coincidem!");

@@ -1,12 +1,12 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:verde_farm/Services/user_service.dart';
 import 'package:verde_farm/feature/Login/Controllers/login_provider.dart';
-
 import '../Model/user_model.dart';
 
 class PerfilController {
+  UserService userService = UserService();
+
   static int id = 0;
   static String? firstName;
   static String? lastName;
@@ -18,49 +18,55 @@ class PerfilController {
   static final TextEditingController sobrenomeController =
       TextEditingController();
 
-  static loadPerfil() async {
-    String? response = LoginProvider.prefs.getString('email');
-    var infos = await UserService.getUser(response!);
-    var json = jsonDecode(infos.body);
-    // print(json);
-    id = json[0]['id'];
-    firstName = json[0]['first_name'];
-    lastName = json[0]['last_name'];
-    username = json[0]['username'];
-    email = json[0]['email'];
+  loadPerfil() async {
+    String? pickedEmail = LoginProvider.prefs.getString('email');
+    var infos = await userService.getUserByEmail(pickedEmail ?? '');
+    id = infos?.id ?? -1;
+    firstName = infos?.firstName ?? '';
+    lastName = infos?.lastName ?? '';
+    username = infos?.username ?? '';
+    email = infos?.email ?? '';
   }
 
-  static editarDados(BuildContext context) async {
-    String? pegaID = LoginProvider.prefs.getString('email');
-    var infos = await UserService.getUser(pegaID!);
-    var json = jsonDecode(infos.body);
-    // print(json);
-    id = json[0]['id'];
-    username = json[0]['username'];
+  editarDados(BuildContext context) async {
+    String? pegaIdComEmail = LoginProvider.prefs.getString('email');
+    var infos = await userService.getUserByEmail(pegaIdComEmail ?? '');
+    id = infos?.id ?? -1;
+
+    username = infos?.username ?? '';
     if (apelidoController.text.isNotEmpty) {
       username = apelidoController.text;
     }
-    var firstName = json[0]['first_name'];
+
+    firstName = infos?.firstName ?? '';
     if (nomeController.text.isNotEmpty) {
       firstName = nomeController.text;
     }
-    var lastName = json[0]['last_name'];
+
+    lastName = infos?.lastName ?? '';
     if (sobrenomeController.text.isNotEmpty) {
       lastName = sobrenomeController.text;
     }
-    var response = await UserService.putUser(
-      User(
-        username: username,
-        first_name: firstName,
-        last_name: lastName,
-      ),
-    );
-    if (response.statusCode == 200) {
-      Get.snackbar("Sucesso!", "Dados alterados com sucesso");
 
-      Navigator.pop(context);
+    email = infos?.email ?? '';
+
+    User user = User(
+        id: id,
+        username: username,
+        firstName: firstName,
+        lastName: lastName,
+        email: email);
+    try {
+      var response = await userService.putUser(user);
+      debugPrint(response.toString());
+      if (response != null) {
+        Get.snackbar("Sucesso!", "Dados alterados com sucesso");
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      debugPrint(e.toString());
     }
-    print(response.body);
+    // debugPrint(response);
   }
 
   static Future<bool> sair() async {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import '../Controller/cadastro_feira_controller.dart';
 
 class CadastroFeiraModal extends StatefulWidget {
   const CadastroFeiraModal({super.key});
@@ -11,6 +10,7 @@ class CadastroFeiraModal extends StatefulWidget {
 
 class _CadastroFeiraModalState extends State<CadastroFeiraModal> {
   double height = 50;
+  CadastroFeiraController cadastroFeiraController = CadastroFeiraController();
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
@@ -53,6 +53,7 @@ class _CadastroFeiraModalState extends State<CadastroFeiraModal> {
             Column(
               children: [
                 TextFormField(
+                  controller: cadastroFeiraController.nomeFeiraController,
                   decoration: const InputDecoration(
                     labelText: 'Nome da Feira',
                     hintText: 'Nome da Feira',
@@ -64,7 +65,8 @@ class _CadastroFeiraModalState extends State<CadastroFeiraModal> {
                   ),
                 ),
                 ElevatedButton(
-                    onPressed: cadastrarFeira, child: const Text('Salvar')),
+                    onPressed: cadastroFeiraController.cadastrarFeira,
+                    child: const Text('Salvar')),
               ],
             ),
           ],
@@ -86,6 +88,4 @@ class _CadastroFeiraModalState extends State<CadastroFeiraModal> {
       return false;
     }
   }
-
-  cadastrarFeira() {}
 }

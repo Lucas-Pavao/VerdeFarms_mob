@@ -12,7 +12,7 @@ class _FavoritosState extends State<Favoritos> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Favoritos'),
+        title: const Text('Favoritos'),
       ),
     );
   }

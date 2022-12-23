@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:verde_farm/feature/Vender/Controller/cadastro_feira_controller.dart';
 import '../../Mapa/Controller/mapa_controller.dart';
 import 'cadastro_feira_modal.dart';
 
@@ -13,8 +14,7 @@ class CadastroFeira extends StatefulWidget {
 
 class _CadastroFeiraState extends State<CadastroFeira> {
   get controller => Get.put(MapaController());
-  final List<Marker> markers = [];
-
+  CadastroFeiraController cadastroFeiraController = CadastroFeiraController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,22 +51,10 @@ class _CadastroFeiraState extends State<CadastroFeira> {
           target: controller.position,
           zoom: 13,
         ),
-        onTap: onTap,
-        markers: markers.map((e) => e).toSet(),
+        onTap: cadastroFeiraController.onTap,
+        markers: CadastroFeiraController.markers.map((e) => e).toSet(),
         onMapCreated: controller.onMapCreated,
       ),
     );
-  }
-
-  onTap(LatLng latLng) {
-    Marker newMarker = Marker(
-        markerId: const MarkerId('1'),
-        position: LatLng(latLng.latitude, latLng.longitude),
-        infoWindow: const InfoWindow(title: 'Feira'),
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen));
-    markers.add(newMarker);
-
-    print('clicou em ${latLng.latitude} e ${latLng.longitude}');
-    setState(() {});
   }
 }

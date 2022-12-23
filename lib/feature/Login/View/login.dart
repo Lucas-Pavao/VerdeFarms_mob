@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:verde_farm/Components/form_field_logins.dart';
-import 'package:verde_farm/feature/Mapa/View/mapa.dart';
+import 'package:verde_farm/feature/Login/View/Components/form_field_logins.dart';
 import 'package:verde_farm/feature/Login/Controllers/login_controller.dart';
-import '../../../Components/pass_form_field_logins.dart';
+import 'Components/pass_form_field_logins.dart';
 import '../../Cadastro/View/cadastro.dart';
 
 class LoginPage extends StatefulWidget {
@@ -16,7 +15,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   // @override
   // void dispose() {
-  //   // TODO: implement dispose
+  //
   //   super.dispose();
   //   LoginController.emailController.dispose();
   //   LoginController.passwordController.dispose();

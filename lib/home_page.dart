@@ -16,14 +16,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int paginaAtual = 0;
   late PageController pc;
+  PerfilController perfilController = PerfilController();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     pc = PageController(initialPage: paginaAtual);
-    Future.delayed(const Duration(milliseconds: 100), () async {
-      await PerfilController.loadPerfil();
+    Future.delayed(const Duration(milliseconds: 200), () async {
+      await perfilController.loadPerfil();
       setState(() {});
     });
   }

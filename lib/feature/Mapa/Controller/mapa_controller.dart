@@ -51,10 +51,8 @@ class MapaController extends GetxController {
 
   watchPosition() async {
     positionStream = Geolocator.getPositionStream().listen((Position position) {
-      if (position != null) {
-        latitude.value = position.latitude;
-        longitude.value = position.longitude;
-      }
+      latitude.value = position.latitude;
+      longitude.value = position.longitude;
     });
   }
 

@@ -17,30 +17,23 @@ import 'package:verde_farm/feature/Vender/Model/vendedor_model.dart';
 // }
 
 class VendedorServices {
-  static Future<Vendedor> getVEndedor() async {
-    var response = await http.get(Uri.parse(Backend.vendedorURL + '1'));
+  static Future<Vendedor> getVEndedor(id) async {
+    var response = await http.get(Uri.parse("${Backend.vendedorURL}$id"));
     var json = jsonDecode(response.body);
     var vendedor = Vendedor.fromJson(json);
     return vendedor;
   }
 
   static Future<Vendedor?> postVEndedor(Vendedor vendedor) async {
-    var response = await http.post(Uri.parse(Backend.vendedorURL), body: {
-      'usuario': vendedor.usuario,
-      'senha': vendedor.senha,
-      'apelido': vendedor.apelido,
-      'cpf': vendedor.cpf,
-      'nome': vendedor.nome,
-      'descricao': vendedor.descricao,
-    });
-    if (response.statusCode == 201) {
-      print(response.statusCode);
-      print(response.body);
-      final String responseString = response.body;
-      return Vendedor.fromJson(responseString);
-    } else {
-      print(response.statusCode);
-      return null;
-    }
+    var response =
+        await http.post(Uri.parse(Backend.vendedorURL), body: vendedor);
+    // if (response.statusCode == 201) {
+    //   debugPrint(response.statusCode);
+    //   debugPrint(response.body);
+    final json = jsonDecode(response.body);
+    return Vendedor.fromJson(json);
+    //   debugPrint(response.statusCode);
+    //   return null;
+    // }
   }
 }

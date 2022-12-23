@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:verde_farm/home_page.dart';
 
 import '../Controllers/perfil_controller.dart';
 import 'editar_dados_modal.dart';

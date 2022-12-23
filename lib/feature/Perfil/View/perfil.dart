@@ -15,7 +15,6 @@ class Perfil extends StatefulWidget {
 class _PerfilState extends State<Perfil> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 

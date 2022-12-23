@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:verde_farm/feature/Login/Controllers/login_provider.dart';
 import 'package:verde_farm/feature/Mapa/Controller/mapa_controller.dart';
-import '../../../Components/login_nav_bar.dart';
+import 'Components/login_nav_bar.dart';
 
 class Mapa extends StatefulWidget {
   const Mapa({super.key});
@@ -15,11 +15,10 @@ class Mapa extends StatefulWidget {
 class _MapaState extends State<Mapa> {
   @override
   void initState() {
-    // TODO: implement initState
     // String? token = GeneralConstants.prefs.getString('token');
-    // print(token);
+    // debugPrint(token);
     super.initState();
-    Future.delayed(Duration(milliseconds: 200), () {
+    Future.delayed(const Duration(milliseconds: 200), () {
       LoginProvider.checkLoggedUser();
     });
   }

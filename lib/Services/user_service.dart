@@ -1,62 +1,46 @@
-import 'package:verde_farm/feature/Perfil/View/perfil.dart';
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:verde_farm/feature/Login/Model/autorizacao_model.dart';
 import 'package:verde_farm/feature/Perfil/Model/user_model.dart';
 import '../constants/api_constants.dart';
-import '../feature/Login/Controllers/login_controller.dart';
-import '../feature/Perfil/Controllers/perfil_controller.dart';
 import 'http_services.dart';
-import 'package:http/http.dart' as http;
-
-// void main() {
-//   print(UserService.getUser(1));
-// }
 
 class UserService {
-  static Future<http.Response> getUser(String email) async {
-    // Por email
+  HttpServices httpServices = HttpServices();
+  // Por email
+  Future<User?> getUserByEmail(String email) async {
     final response =
-        await HttpServices.getData("${Backend.usersURL}?search=$email");
-    // print(response.body);
-    return response;
+        await httpServices.getData("${Backend.usersURL}?search=$email");
+    final json = jsonDecode(response);
+    debugPrint(json.toString());
+    return User.fromJson(json[0]);
   }
 
-  // static Future<User> getUser(int id) async {
-  //   final response = await HttpServices.getData("${Backend.usersURL}/$id"); // Por ID
-  //   print(response.body);
-  //   return userFromJason(response.body);
-  // }
-
-  static Future<String> postUser(User user) async {
-    final response = await HttpServices.postData(
-      Backend.usersURL,
-      {
-        'username': user.username,
-        'first_name': user.first_name,
-        'last_name': user.last_name,
-      },
-    );
-    return response.body;
+  Future<User?> getUserById(int id) async {
+    final response =
+        await httpServices.getData("${Backend.usersURL}/$id"); // Por ID
+    final json = jsonDecode(response);
+    debugPrint(json);
+    return User.fromJson(json[0]);
   }
 
-  static Future<http.Response> putUser(User user) async {
-    final response = await HttpServices.putData(
-      '${Backend.usersURL}${PerfilController.id}/',
-      {
-        'username': user.username,
-        'first_name': user.first_name,
-        'last_name': user.last_name,
-      },
-    );
-    return response;
+  Future<User?> postUser(User user) async {
+    final response = await httpServices.postData(Backend.usersURL, user);
+    final json = jsonDecode(response);
+    return User.fromJson(json);
   }
 
-  // static Future<User> deleteUser() async {
-  //   final response = await HttpServices.deleteData("${Backend.usersURL}/${GeneralConstants.authUser?.usuarioDto?.id}");
-  //   return userFromJason(response.body);
-  // }
+  Future<User?> putUser(User user /*, int id*/) async {
+    final response = await httpServices.putData(
+        '${Backend.usersURL}${user.id}/', jsonEncode(user));
+    final json = jsonDecode(response);
+    return User.fromJson(json);
+  }
 
-  static Future<http.Response> authUser(String email, String senha) async {
-    final response = await HttpServices.postData(
-        Backend.loginURL, {"username": email, "password": senha});
-    return response;
+  Future<Auth?> authUser(String email, String senha) async {
+    final response = await httpServices.postData(
+        Backend.loginURL, jsonEncode({"username": email, "password": senha}));
+    final json = jsonDecode(response);
+    return Auth.fromJson(json);
   }
 }

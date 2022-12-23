@@ -1,8 +1,4 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:verde_farm/feature/Vender/View/cadastro_feira.dart';
 
 class Vendedor extends StatefulWidget {
@@ -45,7 +41,7 @@ class _VendedorState extends State<Vendedor> {
                       ),
                     );
                   },
-                  child: Text('Cadastrar Feira'),
+                  child: const Text('Cadastrar Feira'),
                 ),
               ),
             ],

@@ -9,6 +9,7 @@ class EditarDadosModal extends StatefulWidget {
 }
 
 class _EditarDadosModalState extends State<EditarDadosModal> {
+  get controller => PerfilController();
   double height = 50;
   @override
   Widget build(BuildContext context) {
@@ -85,9 +86,8 @@ class _EditarDadosModalState extends State<EditarDadosModal> {
                   ),
                 ),
                 ElevatedButton(
-                    onPressed: () async {
-                      await PerfilController.editarDados(context);
-                    },
+                    onPressed: () async =>
+                        await controller.editarDados(context),
                     child: const Text('Salvar Alterações')),
               ],
             ),
