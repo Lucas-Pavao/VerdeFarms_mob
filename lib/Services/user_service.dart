@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:verde_farm/feature/Login/Model/autorizacao_model.dart';
 import 'package:verde_farm/feature/Perfil/Model/user_model.dart';
 import '../constants/api_constants.dart';
+import '../feature/Login/Controllers/login_provider.dart';
 import 'http_services.dart';
 
 class UserService {
-  HttpServices httpServices = HttpServices();
+  final LoginProvider loginProvider;
+  UserService(this.loginProvider);
+  late HttpServices httpServices = HttpServices(loginProvider);
   // Por email
   Future<User?> getUserByEmail(String email) async {
     final response =

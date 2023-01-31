@@ -1,22 +1,30 @@
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:verde_farm/Services/register_service.dart';
 import 'package:verde_farm/feature/Cadastro/Model/register_model.dart';
+import 'package:verde_farm/feature/Login/Controllers/login_provider.dart';
 import '../../Login/View/login.dart';
 
 class CadastroController {
-  RegisterServices registerServices = RegisterServices();
+  final LoginProvider loginProvider;
+  CadastroController(this.loginProvider);
 
-  static final TextEditingController apelidoController =
-      TextEditingController();
-  static final TextEditingController firstNameController =
-      TextEditingController();
-  static final TextEditingController lastNameController =
-      TextEditingController();
-  static final TextEditingController emailController = TextEditingController();
-  static final TextEditingController senhaController = TextEditingController();
-  static final TextEditingController confSenhaController =
-      TextEditingController();
+  late RegisterServices registerServices = RegisterServices(loginProvider);
+
+  final TextEditingController apelidoController = TextEditingController();
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController senhaController = TextEditingController();
+  final TextEditingController confSenhaController = TextEditingController();
+
+  dispose() {
+    apelidoController.dispose();
+    firstNameController.dispose();
+    lastNameController.dispose();
+    emailController.dispose();
+    senhaController.dispose();
+    confSenhaController.dispose();
+  }
 
   Future<void> cadastrar(BuildContext context) async {
     final String apelido = apelidoController.text;
@@ -42,9 +50,11 @@ class CadastroController {
           username: apelido,
         );
         try {
-          await registerServices.postRegister(register);
-          Get.snackbar("Sucesso!", "Cadastro realizado com secesso!");
-          Get.off(const LoginPage());
+          registerServices.postRegister(register);
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => LoginPage(
+                    loginProvider: loginProvider,
+                  )));
           // Navigator.of(context).pushReplacement(
           //     MaterialPageRoute(builder: (context) => const LoginPage()));
         } catch (e) {
@@ -78,10 +88,10 @@ class CadastroController {
           //   }
         }
       } else {
-        Get.snackbar("Atenção!", "As senhas não coincidem!");
+        // Get.snackbar("Atenção!", "As senhas não coincidem!");
       }
     } else {
-      Get.snackbar("Atenção!", "Todos os campos devem ser preenchidos!");
+      // Get.snackbar("Atenção!", "Todos os campos devem ser preenchidos!");
     }
   }
 }

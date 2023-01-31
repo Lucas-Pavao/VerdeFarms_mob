@@ -3,24 +3,23 @@ import 'package:verde_farm/feature/Login/View/Components/form_field_logins.dart'
 import 'package:verde_farm/feature/Login/View/Components/pass_form_field_logins.dart';
 import 'package:verde_farm/feature/Cadastro/Controllers/cadastro_controller.dart';
 
+import '../../Login/Controllers/login_provider.dart';
+
 class Cadastro extends StatefulWidget {
-  const Cadastro({super.key});
+  const Cadastro({super.key, required this.loginProvider});
+  final LoginProvider loginProvider;
 
   @override
   State<Cadastro> createState() => _CadastroState();
 }
 
 class _CadastroState extends State<Cadastro> {
-  CadastroController cadastroController = CadastroController();
+  late CadastroController cadastroController =
+      CadastroController(widget.loginProvider);
   @override
   void dispose() {
     super.dispose();
-    CadastroController.apelidoController.dispose();
-    CadastroController.firstNameController.dispose();
-    CadastroController.lastNameController.dispose();
-    CadastroController.emailController.dispose();
-    CadastroController.senhaController.dispose();
-    CadastroController.confSenhaController.dispose();
+    cadastroController.dispose();
   }
 
   @override
@@ -40,29 +39,29 @@ class _CadastroState extends State<Cadastro> {
                 FormFieldLogins(
                     keyboardType: TextInputType.text,
                     labelText: 'Apelido',
-                    textController: CadastroController.apelidoController),
+                    textController: cadastroController.apelidoController),
                 FormFieldLogins(
                     keyboardType: TextInputType.text,
                     labelText: 'Nome',
-                    textController: CadastroController.firstNameController),
+                    textController: cadastroController.firstNameController),
                 FormFieldLogins(
                     keyboardType: TextInputType.text,
                     labelText: 'Sobrenome',
-                    textController: CadastroController.lastNameController),
+                    textController: cadastroController.lastNameController),
                 FormFieldLogins(
                   keyboardType: TextInputType.text,
                   labelText: 'Email',
-                  textController: CadastroController.emailController,
+                  textController: cadastroController.emailController,
                 ),
                 PassFormFieldLogins(
                   keyboardType: TextInputType.text,
                   labelText: 'Senha',
-                  textEditingController: CadastroController.senhaController,
+                  textEditingController: cadastroController.senhaController,
                 ),
                 PassFormFieldLogins(
                   keyboardType: TextInputType.text,
                   labelText: 'Confirmar senha',
-                  textEditingController: CadastroController.confSenhaController,
+                  textEditingController: cadastroController.confSenhaController,
                 ),
                 ElevatedButton(
                   onPressed: () async {

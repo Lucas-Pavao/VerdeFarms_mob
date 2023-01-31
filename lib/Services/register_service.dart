@@ -4,10 +4,14 @@ import 'package:verde_farm/Services/http_services.dart';
 import 'package:verde_farm/constants/api_constants.dart';
 import 'package:verde_farm/feature/Cadastro/Model/register_model.dart';
 
+import '../feature/Login/Controllers/login_provider.dart';
 import '../utils/http_exceptions.dart';
 
 class RegisterServices {
-  HttpServices httpServices = HttpServices();
+  final LoginProvider loginProvider;
+  RegisterServices(this.loginProvider);
+
+  late HttpServices httpServices = HttpServices(loginProvider);
 
   // static Future<Register> getRegister() async {
   //   final response = await HttpServices.getData("${Backend.}/$id");

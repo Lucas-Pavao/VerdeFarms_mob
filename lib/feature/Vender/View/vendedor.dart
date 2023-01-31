@@ -1,23 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:verde_farm/feature/Login/Controllers/login_provider.dart';
+import 'package:verde_farm/feature/Vender/Controller/vender_controller.dart';
 import 'package:verde_farm/feature/Vender/View/cadastro_feira.dart';
 
+import '../Model/feira_model.dart';
+
 class Vendedor extends StatefulWidget {
-  const Vendedor({super.key});
+  const Vendedor({super.key, required this.loginProvider});
+  final LoginProvider loginProvider;
 
   @override
   State<Vendedor> createState() => _VendedorState();
 }
 
 class _VendedorState extends State<Vendedor> {
+  late VenderController venderController =
+      VenderController(widget.loginProvider);
+
+  late Future<List<Feira>> feiras;
+
+  @override
+  void initState() {
+    super.initState();
+    feiras = venderController.pegaFeira();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.05,
-          ),
+          // const SafeArea(
+          //   child: SizedBox(
+          //     height: 10,
+          //   ),
+          // ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -37,7 +54,8 @@ class _VendedorState extends State<Vendedor> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const CadastroFeira(),
+                        builder: (context) =>
+                            CadastroFeira(loginProvider: widget.loginProvider),
                       ),
                     );
                   },
@@ -45,6 +63,28 @@ class _VendedorState extends State<Vendedor> {
                 ),
               ),
             ],
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.8,
+            child: FutureBuilder<List<Feira>>(
+              future: feiras,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, index) {
+                        Feira feira = snapshot.data![index];
+                        return ListTile(
+                          title: Text(feira.nome ?? ''),
+                        );
+                      });
+                } else if (snapshot.hasError) {
+                  return const Text('Erro ao carregar');
+                } else {
+                  return const Center(child: CircularProgressIndicator());
+                }
+              },
+            ),
           ),
         ],
       ),

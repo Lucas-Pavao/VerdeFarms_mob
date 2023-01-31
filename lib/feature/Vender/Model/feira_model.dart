@@ -8,8 +8,8 @@
 class Feira {
   int? id;
   String? nome;
-  double? latitude;
-  double? longitude;
+  String? latitude;
+  String? longitude;
 
   Feira({this.id, this.nome, this.latitude, this.longitude});
 

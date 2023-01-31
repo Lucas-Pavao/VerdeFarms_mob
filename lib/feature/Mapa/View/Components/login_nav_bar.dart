@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:verde_farm/feature/Login/Controllers/login_provider.dart';
 import '../../../Cadastro/View/cadastro.dart';
 import '../../../Login/View/login.dart';
 
 class LoginNavBar extends StatelessWidget {
-  const LoginNavBar({super.key});
+  const LoginNavBar({super.key, required this.loginProvider});
+  final LoginProvider loginProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,12 @@ class LoginNavBar extends StatelessWidget {
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.black)),
                 onPressed: () {
-                  Get.to(const Cadastro());
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Cadastro(
+                                loginProvider: loginProvider,
+                              )));
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -53,7 +59,12 @@ class LoginNavBar extends StatelessWidget {
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.black)),
                 onPressed: () {
-                  Get.to(const LoginPage());
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => LoginPage(
+                                loginProvider: loginProvider,
+                              )));
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

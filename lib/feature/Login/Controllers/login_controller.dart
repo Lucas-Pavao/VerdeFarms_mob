@@ -1,39 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:verde_farm/home_page.dart';
 import '../../../Services/user_service.dart';
 import 'package:http/http.dart' as http;
 
 import 'login_provider.dart';
 
-class LoginController extends GetxController {
-  UserService userService = UserService();
+class LoginController {
+  final LoginProvider loginProvider;
+  LoginController(this.loginProvider);
+  late UserService userService = UserService(loginProvider);
 
-  static final TextEditingController emailController = TextEditingController();
-  static final TextEditingController passwordController =
-      TextEditingController();
-  static late http.Response errorController;
-  static final String email = emailController.text;
-  static final String password = passwordController.text;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  late http.Response errorController;
+  //  final String email = emailController.text;
+  //  final String password = passwordController.text;
 
-  @override
-  void onClose() {
+  void dispose() {
     emailController.dispose();
     passwordController.dispose();
     // debugPrint("TextControllers removidos da memória.");
-    super.onClose();
   }
 
   Future<void> performSignIn(BuildContext context) async {
+    final String email = emailController.text;
+    final String password = passwordController.text;
     if (email.isNotEmpty && password.isNotEmpty) {
       try {
-        final response = await userService.authUser(email, password);
-        debugPrint(response.toString());
-        LoginProvider.prefs.setString("email", email);
-        LoginProvider.token = response?.access ?? "";
-        LoginProvider.prefs.setString("token", response?.access ?? "");
-        Get.snackbar("Sucesso!", "Login relizado com sucesso");
-        Get.offAll(const HomePage());
+        userService.authUser(email, password).then((response) {
+          debugPrint(response.toString());
+          LoginProvider loginProvider = context.read<LoginProvider>();
+          loginProvider.email = email;
+          loginProvider.token = response?.access ?? "";
+          // Get.snackbar("Sucesso!", "Login relizado com sucesso");
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => HomePage(loginProvider: loginProvider),
+          ));
+        });
 
         // if (response.statusCode == 200) {
         //   var json = jsonDecode(response.body);
@@ -51,7 +55,7 @@ class LoginController extends GetxController {
         debugPrint(e.toString());
       }
     } else {
-      Get.snackbar('Error', "Preencha todos os campos");
+      // Get.snackbar('Error', "Preencha todos os campos");
     }
   }
 }

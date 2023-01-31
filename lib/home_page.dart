@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:verde_farm/feature/Favorito/View/favoritos.dart';
+import 'package:verde_farm/feature/Login/Controllers/login_provider.dart';
 import 'package:verde_farm/feature/Mapa/View/mapa.dart';
 import 'package:verde_farm/feature/Perfil/View/perfil.dart';
 import 'package:verde_farm/feature/Vender/View/vendedor.dart';
 import 'package:verde_farm/feature/Perfil/Controllers/perfil_controller.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({super.key, required this.loginProvider});
+  final LoginProvider loginProvider;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -16,16 +18,15 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int paginaAtual = 0;
   late PageController pc;
-  PerfilController perfilController = PerfilController();
+  late PerfilController perfilController =
+      PerfilController(widget.loginProvider);
 
   @override
   void initState() {
     super.initState();
     pc = PageController(initialPage: paginaAtual);
-    Future.delayed(const Duration(milliseconds: 200), () async {
-      await perfilController.loadPerfil();
-      setState(() {});
-    });
+
+    // perfilController.loadPerfil(context);
   }
 
   @override
@@ -33,7 +34,16 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: PageView(
         controller: pc,
-        children: const [Mapa(), Favoritos(), Vendedor(), Perfil()],
+        physics: paginaAtual == 0
+            ? const NeverScrollableScrollPhysics()
+            : const AlwaysScrollableScrollPhysics(),
+        children: [
+          Mapa(loginProvider: widget.loginProvider),
+          const Favoritos(),
+          Vendedor(loginProvider: widget.loginProvider),
+          Perfil(loginProvider: widget.loginProvider)
+        ],
+        onPageChanged: (value) => setState(() => paginaAtual = value),
       ),
       bottomNavigationBar: SizedBox(
         width: MediaQuery.of(context).size.width,

@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:verde_farm/feature/Login/View/Components/form_field_logins.dart';
 import 'package:verde_farm/feature/Login/Controllers/login_controller.dart';
+import '../Controllers/login_provider.dart';
 import 'Components/pass_form_field_logins.dart';
 import '../../Cadastro/View/cadastro.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  const LoginPage({super.key, required this.loginProvider});
+  final LoginProvider loginProvider;
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  // @override
-  // void dispose() {
-  //
-  //   super.dispose();
-  //   LoginController.emailController.dispose();
-  //   LoginController.passwordController.dispose();
-  // }
+  late LoginController loginController = LoginController(widget.loginProvider);
+  @override
+  void dispose() {
+    super.dispose();
+    loginController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,20 +38,19 @@ class _LoginPageState extends State<LoginPage> {
                     keyboardType: TextInputType.emailAddress,
                     labelText: 'Email',
                     autofocus: true,
-                    textController: LoginController.emailController,
+                    textController: loginController.emailController,
                   ),
                   const Divider(),
                   PassFormFieldLogins(
                     labelText: 'Senha',
                     autofocus: true,
                     keyboardType: TextInputType.text,
-                    textEditingController: LoginController.passwordController,
+                    textEditingController: loginController.passwordController,
                   ),
                   const Divider(),
                   ElevatedButton(
-                    onPressed: () async {
-                      LoginController loginController = LoginController();
-                      await loginController.performSignIn(context);
+                    onPressed: () {
+                      loginController.performSignIn(context);
                     },
                     style: TextButton.styleFrom(
                         elevation: 0,
@@ -66,7 +65,14 @@ class _LoginPageState extends State<LoginPage> {
                   Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                     TextButton(
                         onPressed: () {
-                          Get.to(const Cadastro());
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Cadastro(
+                                loginProvider: widget.loginProvider,
+                              ),
+                            ),
+                          );
                         },
                         child: const Text('Cadastrar'))
                   ]),

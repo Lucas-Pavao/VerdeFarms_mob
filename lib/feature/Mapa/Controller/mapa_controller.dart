@@ -1,25 +1,51 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:verde_farm/Services/localizacao_service.dart';
+import '../../../Services/feira_service.dart';
+import '../../Login/Controllers/login_provider.dart';
+import '../../Vender/Model/feira_model.dart';
+import '../Model/localizacao_model.dart';
 
-class MapaController extends GetxController {
-  final latitude = 0.0.obs;
-  final longitude = 0.0.obs;
+class MapaController extends ChangeNotifier {
+  final LoginProvider loginProvider;
+  MapaController(this.loginProvider);
+
+  bool myLocationEnabled = true;
+
+  double _latitude = 0.0;
+  double _longitude = 0.0;
+
+  setLatLong(double lat, double long) {
+    _latitude = lat;
+    _longitude = long;
+    notifyListeners();
+  }
+
   late StreamSubscription<Position> positionStream;
+  late FeiraService feiraService = FeiraService(loginProvider);
+  late LocalizacaoService localizacaoService =
+      LocalizacaoService(loginProvider);
 
-  final LatLng _position = const LatLng(0.0, 0.0);
+  final Set<Marker> markers = {};
+
+  LatLng get position => LatLng(_latitude, _longitude);
+
   late GoogleMapController _mapsController;
 
-  static MapaController get to => Get.find<MapaController>();
-  get mapsController => _mapsController;
-  get position => _position;
+  // static MapaController get to => Get.find<MapaController>();
+  // get mapsController => _mapsController;
 
-  onMapCreated(GoogleMapController gmc) async {
+  void onMapCreated(GoogleMapController gmc) async {
     _mapsController = gmc;
     getPosition();
     watchPosition();
+    if (loginProvider.isLoged) {
+      _loadFeiras();
+      // _loadUserLoc();
+    }
+
     // loadFeiras();
     // loadVendedores();
   }
@@ -49,31 +75,89 @@ class MapaController extends GetxController {
     return Geolocator.getCurrentPosition();
   }
 
-  watchPosition() async {
+  void watchPosition() async {
     positionStream = Geolocator.getPositionStream().listen((Position position) {
-      latitude.value = position.latitude;
-      longitude.value = position.longitude;
+      setLatLong(position.latitude, position.longitude);
     });
   }
 
+  void myLocationButtonEnabled() {
+    myLocationEnabled = !myLocationEnabled;
+
+    // do {
+    //   Timer(const Duration(minutes: 1), () {
+    //     debugPrint('Timer');
+    //     // localizacaoService.deleteLocalizacao();
+    //     getPosition();
+    //     localizacaoService.postLocalizacao(Localizacao(
+    //         latitude: _latitude.toString(), longitude: _longitude.toString()));
+    //   });
+    // } while (myLocationEnabled);
+
+    notifyListeners();
+  }
+
   @override
-  void onClose() {
+  void dispose() {
+    super.dispose();
     positionStream.cancel();
-    super.onClose();
   }
 
   getPosition() async {
     try {
       final posicao = await _posicaoAtual();
-      latitude.value = posicao.latitude;
-      longitude.value = posicao.longitude;
-      _mapsController.animateCamera(
-          CameraUpdate.newLatLng(LatLng(latitude.value, longitude.value)));
+      setLatLong(posicao.latitude, posicao.longitude);
+
+      _mapsController
+          .animateCamera(CameraUpdate.newLatLng(LatLng(_latitude, _longitude)));
     } catch (e) {
-      Get.snackbar("Error", e.toString(),
-          backgroundColor: Colors.grey[900],
-          colorText: Colors.white,
-          snackPosition: SnackPosition.BOTTOM);
+      //   Get.snackbar("Error", e.toString(),
+      //       backgroundColor: Colors.grey[900],
+      //       colorText: Colors.white,
+      //       snackPosition: SnackPosition.BOTTOM);
+      // }
     }
   }
+
+  void _addMarkerFeira(Feira feira) {
+    markers.add(Marker(
+      markerId: MarkerId(feira.id.toString()),
+      position: LatLng(double.parse(feira.latitude ?? "0.0"),
+          double.parse(feira.longitude ?? "0.0")),
+      infoWindow: InfoWindow(
+        title: feira.nome,
+      ),
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+    ));
+  }
+
+  void _loadFeiras() {
+    feiraService.getAllFeira().then((feiras) {
+      for (var feira in feiras) {
+        _addMarkerFeira(feira);
+      }
+      notifyListeners();
+    });
+  }
+
+  // void _addMarkerUser(final loc) {
+  //   markers.add(Marker(
+  //     markerId: MarkerId(loc['id'].toString()),
+  //     position:
+  //         LatLng(double.parse(loc['latitude']), double.parse(loc['longitude'])),
+  //     infoWindow: InfoWindow(
+  //       title: loc['nome'],
+  //     ),
+  //     icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+  //   ));
+  // }
+
+  // void _loadUserLoc() {
+  //   localizacaoService.getAllLocalizacao().then((localizacao) {
+  //     localizacao?.forEach((loc) {
+  //       _addMarkerUser(loc);
+  //     });
+  //     notifyListeners();
+  //   });
+  // }
 }

@@ -4,16 +4,19 @@ import '../constants/api_constants.dart';
 import '../feature/Login/Controllers/login_provider.dart';
 import '../utils/http_exceptions.dart';
 
-Map<String, String>? getHeaders() {
-  final Map<String, String> headers = <String, String>{
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-    'Authorization': 'Bearer ${LoginProvider.token}',
-  };
-  return headers;
-}
-
 class HttpServices {
+  final LoginProvider loginProvider;
+  HttpServices(this.loginProvider);
+
+  Map<String, String>? getHeaders() {
+    final Map<String, String> headers = <String, String>{
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${loginProvider.token}',
+    };
+    return headers;
+  }
+
   Future<String> getData(String url) async {
     try {
       final response = await Backend.client.get(
@@ -51,10 +54,11 @@ class HttpServices {
     }
   }
 
-  Future<String> deleteData(String url) async {
+  Future<String> deleteData(String url, int id) async {
     try {
       final response = await Backend.client.delete(
-        Uri.parse(url),
+        Uri.parse(url + "/$id"),
+        headers: getHeaders(),
       );
       return response.body;
     } on SocketException {
